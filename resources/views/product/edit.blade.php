@@ -1,22 +1,30 @@
 @extends('layouts.app')
-@section('title','商品登録')
+@section('title','商品編集')
 
 @section('content')
 
 <body>
  <div class="row justify-content-center">
 　<div class="col-md-8 col-md-offset-2">
-  <h2>商品新規登録画面</h2>
+  <h2>商品編集画面</h2>
+                  @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                  @endif
    <br>
   <div class="border col-8">
-    <form method="post" action="{{ route('store') }}">
-       @csrf
-        <div class="form-group">
+    <form method="post" action="{{ route('update',$product->id) }}" onSubmit="return checkSubmit()">
+     
+      @csrf
+      <input type="hidden" name="id" value="{{ $product->id }}">
+     
+     <div class="form-group">
           <br>
-            <h3>商品登録フォーム</h3>
+            <h3>商品編集フォーム</h3>
               <br>
               <label for="product_name">商品名</label>
-               <input type="text" id="product_name" name="product_name" class="form-control" value="{{ old('product_name') }}" >
+               <input type="text" id="product_name" name="product_name" class="form-control" value="{{ $product->product_name }}">
                     @if ($errors->has('product_name'))
                             <div class="text-danger">
                                 {{ $errors->first('product_name') }}
@@ -26,23 +34,18 @@
          <div class="form-group">
          
             <label for="company_name">メーカー名</label>
-                <select type="text" id="company_name" name="company_name" class="form-control" >
-                
+                <select type="text" id="company_name" name="company_id" class="form-control" value="{{ old('company_id') ?: $product->company_id}}">
+
                     @foreach($companies as $company)
-                        <option value="{{ $company->id }}">{{ $company-> company_name }}</option>
+                        <option value="{{ $company->id }}" @if($company->id == $product->company_id) selected @endif> {{ $company -> company_name }} </option>
                     @endforeach
                 </select>
-       
-                @if ($errors->has('company_name'))
-                        <div class="text-danger">
-                            {{ $errors->first('company_name') }}
-                        </div>
-                @endif
+            
          </div>
          
          <div class="form-group">
             <label for="price">価格</label>
-                <input type="number" id="price" name="price" type="text" class="form-control" value="{{ old('price') }}" >
+                <input type="number" id="price" name="price" type="text" class="form-control" value="{{ $product->price }}">
                     @if ($errors->has('price'))
                             <div class="text-danger">
                                 {{ $errors->first('price') }}
@@ -52,7 +55,7 @@
          
          <div class="form-group">
             <label for="stock">在庫数</label>
-                <input type="number" id="stock" name="stock" type="text" class="form-control" value="{{ old('stock') }}" > 
+                <input type="number" id="stock" name="stock" type="text" class="form-control" value="{{ $product->stock }}"> 
                     @if ($errors->has('stock'))
                             <div class="text-danger">
                                 {{ $errors->first('stock') }}
@@ -62,12 +65,8 @@
          
          <div class="form-group">
             <label for="comment">コメント</label>
-            <textarea type="text" name="comment" id="comment" cols="30" rows="8" class="form-control"></textarea>
-                @if ($errors->has('comment'))
-                        <div class="text-danger">
-                            {{ $errors->first('comment') }}
-                        </div>
-                @endif
+            <textarea type="text" name="comment" id="comment" cols="30" rows="8" class="form-control">{{ $product->comment }}</textarea>
+              
          </div>
         
          <div class="form-group">
@@ -79,8 +78,8 @@
          </div>
          
          <div class="mt-5">
-            <button type="submit" class="btn btn-primary">登録する</button>
-            <a class="btn btn-secondary" href="{{ route('showList') }}">戻る</a>
+            <button type="submit" class="btn btn-primary">更新する</button>
+            <a class="btn btn-secondary" href="{{ route('detail', $product->id ) }}">戻る</a>
         </div>
         <br>
     </form>
@@ -88,7 +87,16 @@
   </div>
 
 </div>
-
+<script>
+function checkSubmit(){
+  if(window.confirm('更新してよろしいですか？'))
+  {
+      return true;
+  } else {
+      return false;
+  }
+}
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 <script>

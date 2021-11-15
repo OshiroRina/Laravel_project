@@ -26,6 +26,10 @@ Route::get('/', function () {
 
 //商品一覧画面
 Route::get('/product',[App\Http\Controllers\ProductController::class,'showList']) -> name('showList');
+//検索
+
+
+Route::get('/product/search',[App\Http\Controllers\ProductController::class,'exeSearch']) -> name('search');
 
 //社員一覧
 // Route::get('/company',[App\Http\Controllers\CompanyController::class,'companyList']) -> name('companyList');
@@ -37,7 +41,14 @@ Route::get('/product/create',[App\Http\Controllers\ProductController::class,'sho
 Route::post('/product/store',[App\Http\Controllers\ProductController::class,'exeStore']) -> name('store');
 
 //商品詳細画面
-Route::get('/product/{id}',[App\Http\Controllers\ProductController::class,'showDetail']) -> name('showDetail');
+Route::get('/product/{id}',[App\Http\Controllers\ProductController::class,'showDetail']) -> name('detail');
 
 //商品編集画面
-Route::get('/product/{id}',[App\Http\Controllers\ProductController::class,'editList']) -> name('edit');
+Route::get('/product/edit/{id}',[App\Http\Controllers\ProductController::class,'showEdit']) -> name('edit');
+
+//商品編集画面
+
+Route::post('/product/update',[App\Http\Controllers\ProductController::class,'exeUpdate']) ->name('update');
+
+//商品削除
+Route::post('/product/delete/{id}',[App\Http\Controllers\ProductController::class,'exeDelete']) -> name('delete');

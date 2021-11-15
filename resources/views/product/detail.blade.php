@@ -33,7 +33,7 @@
                
               </dl>
             
-                <a href="#" class="btn btn-primary">{{ __('編集') }} </a>
+              　<button type="button" class="btn btn-primary" onclick="location.href='/product/edit/{{ $product->id }}'">{{ __('編集') }}</button>
                 <a href="/product" class="btn btn-secondary">{{ __('戻る') }} </a>
              
              
