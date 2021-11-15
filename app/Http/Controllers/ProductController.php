@@ -158,18 +158,6 @@ class ProductController extends Controller
            
     }
    
-    /**
-     * 商品検索
-     * 
-     * @param $id
-     * @return view
-     */
-
-    public function showProduct($id)
-    {
-        $product = Product::find($id);
-        return view('product.list', ['product' => $product]);
-    }
 
      /**
      * 商品検索
