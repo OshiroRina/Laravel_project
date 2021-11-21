@@ -7,9 +7,10 @@
  <div class="row justify-content-center">
 　<div class="col-md-8 col-md-offset-2">
   <h2>商品新規登録画面</h2>
+       
    <br>
   <div class="border col-8">
-    <form method="post" action="{{ route('store') }}">
+    <form method="post" action="{{ route('store') }}" enctype="multipart/form-data">
        @csrf
         <div class="form-group">
           <br>
@@ -62,18 +63,14 @@
          
          <div class="form-group">
             <label for="comment">コメント</label>
-            <textarea type="text" name="comment" id="comment" cols="30" rows="8" class="form-control"></textarea>
-                @if ($errors->has('comment'))
-                        <div class="text-danger">
-                            {{ $errors->first('comment') }}
-                        </div>
-                @endif
+            <textarea type="text" name="comment" id="comment" cols="30" rows="8" class="form-control" value="{{ old('comment') }}"></textarea>
+                
          </div>
         
          <div class="form-group">
             <label for="inputFile">商品画像</label>
              <div class="custom-file">
-                <input id="img-file" name="img-file" type="file" class="custom-file-input">
+                <input id="image" name="image" type="file" class="custom-file-input">
                 <label class="custom-file-label" for="inputFile" data-browse="参照">画像ファイルを選択</label>
             </div>
          </div>

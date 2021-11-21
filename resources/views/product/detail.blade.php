@@ -13,7 +13,11 @@
                 <dd class="col-sm-9">{{ $product -> id }}</dd>
 
                 <dt class="col-sm-3">商品画像: </dt>
-                <dd class="col-sm-9"><img src="" alt="画像"></dd> 
+                <dd class="col-sm-9">
+                  @if (isset($product['file_path']))
+                   <img src="{{asset('storage/'. $product['file_path'])}}" width="200px" height="250px" alt="画像">
+                  @endif
+                </dd> 
 
                 <dt class="col-sm-3">商品名:</dt>
                 <dd class="col-sm-9">{{ $product -> product_name }}</dd>
@@ -33,7 +37,7 @@
                
               </dl>
             
-              　<button type="button" class="btn btn-primary" onclick="location.href='/product/edit/{{ $product->id }}'">{{ __('編集') }}</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='/product/edit/{{ $product->id }}'">{{ __('編集') }}</button>
                 <a href="/product" class="btn btn-secondary">{{ __('戻る') }} </a>
              
              

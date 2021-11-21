@@ -6,39 +6,36 @@
     <div class="col-md-10 col-md-offset-2">
    
       <h2>商品検索結果</h2> 
+        <p class="text-right"><a href="{{ route('showList') }}">←商品一覧へ戻る</a></p>
      
-     <!-- @if(!empty($message))
-              <div class="alert alert-primary" role="alert">{{ $message}}</div>
-              @endif
-
-     @if(isset($products)) -->
-     
-     <p class="text-right"><a href="{{ route('showList') }}">←商品一覧へ戻る</a></p>
-     
-
-
-            <table class="table table-striped">
+        <table class="table table-striped">
               <tr>
                 <th>商品番号</th>
+                <th>画像</th>
                 <th>商品名</th>
                 <th>価格</th>
                 <th>在庫数</th>
                 <th>メーカー名</th>
-
               </tr>
+
               @foreach($products as $product)
 
                 <tr>
                   <td>{{ $product -> id }}</td>
+                  <td>
+                  @if (isset($product['image']))
+                    <img src="{{asset('storage/'. $product['image'])}}" width="100px" height="100px" alt="画像">
+                  @endif
+                  </td>
                   <td>{{ $product -> product_name }}</td>
                   <td>{{ $product -> price }}円</td>
                   <td>{{ $product -> stock }}</td>
                   <td>{{ $product -> company -> company_name }}</td>
-  
                 </tr>
+
               @endforeach
-            </table>
-            @endif
+          </table>
+          
             
        </div>
 </div>

@@ -20,6 +20,7 @@ class Product extends Model
         'price',
         'stock',
         'comment',
+        'image'
        
 
     ];
@@ -28,6 +29,13 @@ class Product extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+       
+    }
+
+    //ContentImageリレーション記載
+    public function contentImage()
+    {
+        return $this->hasOne(ContentImage::class,'product_id','id');
        
     }
    
