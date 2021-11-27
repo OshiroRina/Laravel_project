@@ -2,6 +2,7 @@
 @section('title','商品詳細')
 @section('content')
 
+<div class="container">
 <div class="row justify-content-center">
     <div class="col-md-10 col-md-offset-2">
    
@@ -41,7 +42,8 @@
                 <a href="/product" class="btn btn-secondary">{{ __('戻る') }} </a>
              
              
-           
-       </div>
+          </div>
+     </div>
 </div>
+
 @endSection

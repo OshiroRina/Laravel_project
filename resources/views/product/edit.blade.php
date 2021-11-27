@@ -4,9 +4,10 @@
 @section('content')
 
 <body>
- <div class="row justify-content-center">
-  <div class="col-md-8 col-md-offset-2">
-  <h2>商品編集画面</h2>
+  <div class="container">
+    <div class="row justify-content-center">
+     <div class="col-md-8 col-md-offset-2">
+      <h2>商品編集画面</h2>
                   @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
@@ -86,9 +87,10 @@
         <br>
     </form>
 
+   </div>
   </div>
-
 </div>
+
 <script>
 function checkSubmit(){
   if(window.confirm('更新してよろしいですか？'))
