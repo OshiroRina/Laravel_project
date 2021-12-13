@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-  
-
     /**
      * 商品一覧
      * 
@@ -25,14 +23,18 @@ class ProductController extends Controller
         $products = Product::all();
         $companies = Company::with('company');
         $companies = Company::all();
+        $products = Product::sortable()->paginate(8);
+
         // $images = ContentImage::all();
 
         foreach($products as $product){
+
             $file_path = ContentImage::select('file_path')
             ->where('product_id',$product['id'])
             ->first();
+            
 
-            if(isset($file_path)){
+            if(isset($file_path)) {
                 $product['file_path'] = $file_path['file_path'];
             }
         }
@@ -41,9 +43,7 @@ class ProductController extends Controller
            
     }
     
-    
-
-    /**
+     /**
      * 商品詳細を表示する
      * @param int $id
      * @return view
@@ -53,25 +53,23 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         
-        if(is_null($product))
-        {
+        if(is_null($product)) {
             \Session::flash('err_msg','データがありません。');
             return redirect(route ('showList'));
         }
 
-        
-            $file_path = ContentImage::select('file_path')
-            ->where('product_id',$product['id'])
-            ->first();
+         $products = new Product;
+         $image = $products->image();
 
-            if(isset($file_path)){
-                $product['file_path'] = $file_path['file_path'];
-            }
+         //  $file_path = ContentImage::select('file_path')
+        //  ->where('product_id',$product['id'])
+        // ->first();
+
+    //    if(isset($file_path)){
+    //        $product['file_path'] = $file_path['file_path'];
+    //    }
         
-       
-         return view('product.detail',['product' => $product]); 
-       
-           
+        return view('product.detail',['product' => $product,'image' => $image]);
     }
     
      /**
@@ -95,19 +93,16 @@ class ProductController extends Controller
     
     public function exeStore(ProductRequest $request)
    {    
-       
-        $product = new Product();
-        $product->product_name = $request->product_name;
-        $product->company_id = $request->company_name;
-        $product->price = $request->price;
-        $product->stock = $request->stock;
-        $product->comment = $request->comment;
-        $product->save();
+        return DB::transaction(function() use($request){
+            $product = new Product();
+            $product->product_name = $request->product_name;
+            $product->company_id = $request->company_name;
+            $product->price = $request->price;
+            $product->stock = $request->stock;
+            $product->comment = $request->comment;
+            $product->save();
 
-       
-
-        if ($request->file('image'))
-         {
+        if ($request->file('image')) {
             $this->validate($request, [
                 'image' => [
                    'required',
@@ -129,15 +124,11 @@ class ProductController extends Controller
                 $image_info->file_path = $file_path;
                 $image_info->save();
             }
-        
         }
         
         return redirect(route('showList'))->with('success','商品を登録しました。');
-
-        
+      });
     }
-
-
 
      /**
      * 商品編集画面を表示する
@@ -150,16 +141,13 @@ class ProductController extends Controller
         $companies = Company::all();
         $product = Product::find($id);
         
-        
-        if(is_null($product))
-        {
+        if(is_null($product)) {
             \Session::flash('err_msg','データがありません。');
             return redirect(route ('showList'));
         }
        
          return view('product.edit',compact('product','companies'))->with('success','更新しました。'); 
        
-           
     }
 
      /**
@@ -172,9 +160,9 @@ class ProductController extends Controller
     
     public function exeUpdate(UpdateRequest $request)
    {    
-          
         $product = Product::find($request->id);
         
+        return DB::transaction(function() use($product,$request){
         $product->product_name = $request->product_name;
         $product->company_id = $request->company_name;
         $product->price = $request->price;
@@ -182,10 +170,7 @@ class ProductController extends Controller
         $product->comment = $request->comment;
         $product->save();
 
-        
-
-        if ($request->file('image'))
-         {
+        if ($request->file('image')) {
             $this->validate($request, [
                 'image' => [
                    'required',
@@ -207,12 +192,11 @@ class ProductController extends Controller
                 $image_info->file_path = $file_path;
                 $image_info->save();
             }
-        
         }
-
-     return redirect(route('showList'))->with('success','商品を更新しました。');
-
         
+        return redirect(route('showList'))->with('success','商品を更新しました。');
+  
+     });
     }
 
  /**
@@ -223,24 +207,25 @@ class ProductController extends Controller
 
     public function exeDelete($id)
     {
-       if(empty($id))
-        {
+    
+     return DB::transaction(function() use($id){
+       if(empty($id)) {
             \Session::flash('err_msg','データがありません。');
             return redirect(route ('showList'));
         }
         
         try{
-            Product::destroy($id);
-        } catch(\Throwable $e){
-            abort(500);
-
-       };
+                Product::destroy($id);
+            } catch(\Throwable $e){
+                abort(500);
+            };
 
        return redirect(route ('showList'))->with('success','削除しました。');
+    
+    });
            
     }
    
-
      /**
      * 商品検索
      * 
@@ -249,26 +234,26 @@ class ProductController extends Controller
      */
     public function exeSearch(Request $request)
    {   
-     
         $product_name = $request->product_name;
         $company_id = $request->company_id;
 
         $query = Product::query();
-    
-        $query->when($product_name,function($query,$product_name) {
-            return $query->where('product_name','LIKE',"%{$product_name}%");
-        });
 
-        $query->when($company_id,function($query,$company_id) {
-            return $query->where('company_id',$company_id);
-        });
+        if($request->ajax()) {
 
+          $query->when($product_name,function($query,$product_name) {
+                return $query->where('product_name','LIKE',"%{$product_name}%");
+            });
+
+            $query->when($company_id,function($query,$company_id) {
+                return $query->where('company_id',$company_id);
+            });
+
+        }
         $products = $query->get();
-
-        return view('product.search')->with(['products'=>$products]);
-
-    } 
-   
+        return response($products);
         
-    
+        // return view('product.search')->with(['products'=>$products]);
+
+    }    
 }

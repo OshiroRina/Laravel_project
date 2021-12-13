@@ -21,11 +21,13 @@ class ContentImage extends Model
 
     ];
 
+
       //Productリレーション記載
       public function product()
       {
           return $this->belongsTo(Product::class);
          
       }
+
      
 }

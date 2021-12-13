@@ -3,22 +3,21 @@
 @section('content')
 
 <div class="container">
-<div class="row justify-content-center">
-    <div class="col-md-10 col-md-offset-2">
-   
-      <h2>商品詳細</h2>
-           <br>
-            
-              <dl class="row">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-md-offset-2">
+
+            <h2>商品詳細</h2>
+            <br>
+            <dl class="row">
                 <dt class="col-sm-3">商品情報ID: </dt>
                 <dd class="col-sm-9">{{ $product -> id }}</dd>
 
                 <dt class="col-sm-3">商品画像: </dt>
                 <dd class="col-sm-9">
-                  @if (isset($product['file_path']))
-                   <img src="{{asset('storage/'. $product['file_path'])}}" width="200px" height="250px" alt="画像">
-                  @endif
-                </dd> 
+                    @if (isset($product['file_path']))
+                    <img src="{{asset('storage/'. $product['file_path'])}}" width="200px" height="250px" alt="画像">
+                    @endif
+                </dd>
 
                 <dt class="col-sm-3">商品名:</dt>
                 <dd class="col-sm-9">{{ $product -> product_name }}</dd>
@@ -35,15 +34,14 @@
                 <dt class="col-sm-3">コメント:</dt>
                 <dd class="col-sm-9">{{ $product -> comment }}</dd>
 
-               
-              </dl>
-            
-                <button type="button" class="btn btn-primary" onclick="location.href='/product/edit/{{ $product->id }}'">{{ __('編集') }}</button>
-                <a href="/product" class="btn btn-secondary">{{ __('戻る') }} </a>
-             
-             
-          </div>
-     </div>
+            </dl>
+
+            <button type="button" class="btn btn-primary"
+                onclick="location.href='/product/edit/{{ $product->id }}'">{{ __('編集') }}</button>
+            <a href="/product" class="btn btn-secondary">{{ __('戻る') }} </a>
+
+        </div>
+    </div>
 </div>
 
 @endSection

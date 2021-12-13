@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\LiveSearchController;
 use App\Models\Company;
 
 /*
@@ -31,6 +32,7 @@ Route::get('/product',[App\Http\Controllers\ProductController::class,'showList']
 //商品検索
 
 Route::get('/product/search',[App\Http\Controllers\ProductController::class,'exeSearch']) -> name('search')->middleware('auth');
+Route::get('/read',[App\Http\Controllers\LiveSearchController::class,'read']);
 
 //社員一覧
 // Route::get('/company',[App\Http\Controllers\CompanyController::class,'companyList']) -> name('companyList');
