@@ -20,13 +20,41 @@ class ContentImage extends Model
        
 
     ];
+    
+     //画像表示   
+     public function getImagePath1()
+     {
+         $product = Product::all();
+         $file_path = ContentImage::select('file_path')
+          ->first();
+     
+        if(isset($file_path)){
+         $product['file_path'] = $file_path['file_path'];
+         }
+     
+         return $file_path;
+     }
+ 
 
+    //画像表示   
+    public function getImagePath($product_id)
+    {
+        $product = Product::all();
+        $file_path = ContentImage::select('file_path')
+        ->where('product_id',$product_id)
+        ->first();
+    
+       if(isset($file_path)){
+        $product['file_path'] = $file_path['file_path'];
+        }
+    
+        return $file_path;
+    }
 
       //Productリレーション記載
       public function product()
       {
-          return $this->belongsTo(Product::class);
-         
+        return $this->belongsTo(Product::class);
       }
 
      

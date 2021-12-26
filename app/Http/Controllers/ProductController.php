@@ -23,20 +23,14 @@ class ProductController extends Controller
         $products = Product::all();
         $companies = Company::with('company');
         $companies = Company::all();
-        $products = Product::sortable()->paginate(8);
+        $products = Product::sortable()->Paginate(5);
+        
 
-        // $images = ContentImage::all();
 
         foreach($products as $product){
 
-            $file_path = ContentImage::select('file_path')
-            ->where('product_id',$product['id'])
-            ->first();
-            
-
-            if(isset($file_path)) {
-                $product['file_path'] = $file_path['file_path'];
-            }
+            $content_image = new ContentImage;
+            $image = $content_image->getImagePath1();
         }
     
         return view('product.list',compact('products','companies'));
@@ -58,18 +52,10 @@ class ProductController extends Controller
             return redirect(route ('showList'));
         }
 
-         $products = new Product;
-         $image = $products->image();
+         $content_image = new ContentImage;
+         $image = $content_image->getImagePath($id);
 
-         //  $file_path = ContentImage::select('file_path')
-        //  ->where('product_id',$product['id'])
-        // ->first();
-
-    //    if(isset($file_path)){
-    //        $product['file_path'] = $file_path['file_path'];
-    //    }
-        
-        return view('product.detail',['product' => $product,'image' => $image]);
+        return view('product.detail',compact('product','image'));
     }
     
      /**
@@ -207,23 +193,18 @@ class ProductController extends Controller
 
     public function exeDelete($id)
     {
-    
-     return DB::transaction(function() use($id){
-       if(empty($id)) {
+       if(empty($id))
+        {
             \Session::flash('err_msg','データがありません。');
             return redirect(route ('showList'));
         }
-        
-        try{
-                Product::destroy($id);
-            } catch(\Throwable $e){
-                abort(500);
-            };
+       try{
+            Product::destroy($id);
+        } catch(\Throwable $e){
+            abort(500);
+        };
 
-       return redirect(route ('showList'))->with('success','削除しました。');
-    
-    });
-           
+        return redirect(route ('showList'))->with('success','削除しました。');     
     }
    
      /**
@@ -234,14 +215,13 @@ class ProductController extends Controller
      */
     public function exeSearch(Request $request)
    {   
+        $companies = Company::all();
         $product_name = $request->product_name;
         $company_id = $request->company_id;
 
         $query = Product::query();
 
-        if($request->ajax()) {
-
-          $query->when($product_name,function($query,$product_name) {
+        $query->when($product_name,function($query,$product_name) {
                 return $query->where('product_name','LIKE',"%{$product_name}%");
             });
 
@@ -249,11 +229,9 @@ class ProductController extends Controller
                 return $query->where('company_id',$company_id);
             });
 
-        }
-        $products = $query->get();
-        return response($products);
+        $products = $query->paginate(5);
         
-        // return view('product.search')->with(['products'=>$products]);
+        return view('product.list')->with(['products'=>$products,'companies'=>$companies]);
 
     }    
 }

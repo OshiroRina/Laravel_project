@@ -12,11 +12,11 @@ class LiveSearch extends Controller
     //     return view('product.list');
     // }
 
-    public function read()
-    {
-        return 'ajax成功';
+    // public function read()
+    // {
+    //     return 'ajax成功';
        
-    }
+    // }
 
    
 }

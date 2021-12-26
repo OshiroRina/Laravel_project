@@ -14,8 +14,8 @@
 
                 <dt class="col-sm-3">商品画像: </dt>
                 <dd class="col-sm-9">
-                    @if (isset($product['file_path']))
-                    <img src="{{asset('storage/'. $product['file_path'])}}" width="200px" height="250px" alt="画像">
+                    @if (isset($product['image']))
+                    <img src="{{asset('storage/'. $product['image'])}}" width="200px" height="250px" alt="画像">
                     @endif
                 </dd>
 
