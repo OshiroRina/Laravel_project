@@ -21,8 +21,6 @@ class Product extends Model
         'stock',
         'comment',
         'image'
-       
-
     ];
 
     use Sortable; 
@@ -32,22 +30,17 @@ class Product extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
-       
     }
 
     //ContentImageリレーション記載
     public function contentImage()
     {
         return $this->hasOne(ContentImage::class,'product_id','id');
-       
     }
    
-    
     //Saleリレーション記載
     public function sales()
     {
         return $this->hasMany(Sale::class);
     }
-
-    
 }

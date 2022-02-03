@@ -14,14 +14,18 @@ class CreateSalesTable extends Migration
     public function up()
     {
         if(!Schema::hasTable('sales'))
-         {
-            Schema::create('sales', function (Blueprint $table) {
-                $table->bigIncrements('id');
-                $table->integer('product_id');
-                $table->timestamp('created_at')->nullable();
-                $table->timestamp('updated_at')->nullable();
-            });
-       }
+        {
+            Schema::disableForeignKeyConstraints();
+
+           Schema::create('sales', function (Blueprint $table) {
+               $table->bigIncrements('id');
+               $table->unsignedBigInteger('product_id');
+               $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+               $table->timestamp('created_at')->nullable();
+               $table->timestamp('updated_at')->nullable();
+           });
+           Schema::enableForeignKeyConstraints();
+      }
     }
 
     /**
@@ -32,7 +36,7 @@ class CreateSalesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('sales');
-
+        
        
     }
 }

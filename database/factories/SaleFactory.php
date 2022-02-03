@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Sale;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SaleFactory extends Factory
@@ -22,7 +23,7 @@ class SaleFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'product_id' => $this -> faker -> numberBetween(1,30)
         ];
     }
 }

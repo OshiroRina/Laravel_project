@@ -17,8 +17,6 @@ class ContentImage extends Model
         'product_id',
         'file_path',
         'file_name'
-       
-
     ];
     
      //画像表示   
@@ -35,7 +33,6 @@ class ContentImage extends Model
          return $file_path;
      }
  
-
     //画像表示   
     public function getImagePath($product_id)
     {
@@ -56,6 +53,4 @@ class ContentImage extends Model
       {
         return $this->belongsTo(Product::class);
       }
-
-     
 }

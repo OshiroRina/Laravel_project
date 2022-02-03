@@ -14,13 +14,13 @@ class CreateContentImagesTable extends Migration
     public function up()
     {
         Schema::create('content_images', function (Blueprint $table) {
-            $table->id();
-            $table->integer('product_id');
-            $table->string('file_path');
-            $table->string('file_name');
-            $table->timestamps();
-        });
-    }
+                $table->id();
+                $table->integer('product_id');
+                $table->string('file_path');
+                $table->string('file_name');
+                $table->timestamps();
+       });
+    }    
 
     /**
      * Reverse the migrations.
@@ -29,6 +29,6 @@ class CreateContentImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('content_images');
+        Schema::dropIfExists('content_images_');
     }
 }
