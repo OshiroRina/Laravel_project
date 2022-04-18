@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="form-group searchButton col-md-2 col-sm-2">
-                    <button type="button" class="btn btn-primary text-white px-lg-5" name="search_button" id="search_button">検索</button>
+                    <button type="button" class="btn btn-primary text-white px-lg-5" name="search_button" id="search_button" onclick="checkDelete()">検索</button>
                 </div>
 
             </form>
@@ -67,6 +67,7 @@
       @include('product.search')
     </div>
 </div>
+
 
 @endSection
 

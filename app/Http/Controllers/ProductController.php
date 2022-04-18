@@ -210,7 +210,12 @@ class ProductController extends Controller
             $products = Product::destroy($id);
             $products = Product::orderBy('created_at','desc')->paginate(5);
 
-            return view('product.list')->with(['products'=>$products,'companies'=>$companies]);
+            return redirect(route('showList')) -> with('success','商品を削除しました。');
+           
+            // return view('product.list',[
+            //     'companies'=> $companies,
+            //     'products' => $products,
+            // ])->with('success','商品を削除しました。');
     }
 
     /**
