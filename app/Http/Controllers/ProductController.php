@@ -23,14 +23,14 @@ class ProductController extends Controller
     {
         $products = Product::all();
         $companies = Company::all();
-        $products = Product::sortable()->Paginate(5);
+        $products = Product::sortable()->paginate(5);
         
         foreach($products as $product) {  
 
             $content_image = new ContentImage;
             $image = $content_image->getImagePath1();
         }
-    
+        
         return view('product.list',compact('products','companies'));
            
     }
@@ -41,7 +41,7 @@ class ProductController extends Controller
     public function ajaxList(Request $request)
     {
       if($request->ajax()) {
-        $products = Product::orderBy('created_at','desc')->paginate(5);
+        $products = Product::orderBy('created_at')->paginate(5);
         return view('product.search',compact('products'))->render();
       }
 
@@ -263,6 +263,7 @@ class ProductController extends Controller
 
      public function ajaxSearch(Request $request)
      {
+
         $product_name = $request->product_name;
         $company_id = $request->company_id;
         $min_price = $request->min_price;
@@ -308,7 +309,8 @@ class ProductController extends Controller
     public function exportCSV()
     {
         $products = Product::all();
-
+    
+        
         $headers = [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => "attachment; filename=file.csv",
@@ -356,8 +358,13 @@ class ProductController extends Controller
         };
         
         return response()->stream($callback,200,$headers);
-
-
      }
+
+     public function __get($key)
+    {
+    return Product::get($this->all(), $key, function () use ($key) {
+        return $this->route($key);
+    });
+}
 }
                     
