@@ -8,9 +8,11 @@
             <th>@sortablelink('stock','在庫数')</th>
             <th>@sortablelink('company_name','メーカー名')</th>
 
-            <th><a href="{{ route('create') }}"><button type="button" class="btn btn-outline-primary">+新規登録</button></a>
-            </th>
-            <th></th>
+            <th><a href="{{ route('create') }}"><button type="button" class="btn btn-outline-primary">+新規登録</button></a></th>
+            <th><a href="{{ route('exportCSV') }}"><button type="button" class="btn  btn-success">CSV出力</button></a></th>
+            
+           
+
         </tr>
     </thead>
     <tbody>

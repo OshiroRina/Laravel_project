@@ -39,13 +39,20 @@
                     <p><input type="text"  style="width: 100px;" class="form-control ml-2 " id="max_stock" name="max_stock" placeholder="上限"></p>
                 </div>
 
-                <div class="form-group searchButton col-md-4 col-sm-2">
-                    <button type="button" class="btn btn-primary text-white px-5" name="search_button" id="search_button">検索</button>
+                <div class="form-group searchButton col-md-2 col-sm-2">
+                    <button type="button" class="btn btn-primary text-white px-lg-5" name="search_button" id="search_button">検索</button>
                 </div>
 
             </form>
         </div>
+        
     </div>
+        <!-- <form id="ImportFile" class="form-group col-md-4 col-sm-4 " style="margin-left:auto;" >
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">ファイルインポート</label>
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+         </form> -->
 </div>
 
 @if (session('success'))

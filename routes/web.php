@@ -48,3 +48,5 @@ Route::post('/product/update',[App\Http\Controllers\ProductController::class,'ex
 //======Ajax商品削除==========
 Route::delete('/product/delete/{id}',[App\Http\Controllers\ProductController::class,'destroy'])->name('destroy');
 
+//CSV出力
+Route::get('/product/search',[App\Http\Controllers\ProductController::class,'exportCSV']) -> name('exportCSV');

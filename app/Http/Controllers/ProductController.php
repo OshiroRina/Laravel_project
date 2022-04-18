@@ -303,5 +303,61 @@ class ProductController extends Controller
             return  view('product.search',compact('products'))->render();
         }
     }
+
+
+    public function exportCSV()
+    {
+        $products = Product::all();
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=file.csv",
+        ];
+       
+        $callback = function() use($products){
+            $handle = fopen('php://output','w');
+
+            $columns = [
+               
+                'id' => '商品番号',
+                'image' => '商品画像',
+                'product_name' => '商品名',
+                'price' => '価格',
+                'stock' => '在庫数',
+                'comment' => '備考',
+                'company_name' => 'メーカー名',
+                'created_at' => '登録日',
+                'updated_at' => '更新日',
+               
+            ];
+
+            mb_convert_variables('SJIS-win','UTF-8',$columns);
+
+            fputcsv($handle,$columns);
+
+            foreach($products as $product){
+                $csv = [
+                    $product -> id,
+                    $product -> image,
+                    $product -> product_name,
+                    $product -> price,
+                    $product -> stock,
+                    $product -> comment,
+                    $product -> company -> company_name,
+                    $product -> created_at,
+                    $product -> updated_at,
+                  
+                ];
+
+                mb_convert_variables('SJIS-win', 'UTF-8', $csv);
+                fputcsv($handle, $csv);
+            }
+            fclose($handle);
+        };
+        
+        return response()->stream($callback,200,$headers);
+
+
+     }
 }
                     
