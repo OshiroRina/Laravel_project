@@ -10,17 +10,14 @@
 
             <th><a href="{{ route('create') }}"><button type="button" class="btn btn-outline-primary">+新規登録</button></a></th>
             <th>
-                <form method="GET" action="{{ route('exportCSV') }}" >
+                <!-- <form method="GET" action="{{ route('exportCSV') }}" >
                   @foreach($products as $key => $value)
                     <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                   @endforeach
                     <button type="submit" class="btn  btn-success">CSV出力</button>
-                </form>
+                </form> -->
             <!-- <a href="{{ route('exportCSV') }}"><button type="submit" class="btn  btn-success">CSV出力</button></a> -->
             </th>
-            
-           
-
         </tr>
     </thead>
     <tbody>
